@@ -27,6 +27,7 @@ services:
       timeout: 1s  # Timeout for the health check command is 1 second
       retries: 3  # Retry the health check up to 3 times before marking the container as unhealthy
     depends_on:
+      - redis  # Add redis dependency
       # Ensure that the Phoenix service is started before the Streamlit app
       - phoenix
 
@@ -36,3 +37,8 @@ services:
     ports:
       - "6006:6006"  # Expose port 6006 for the UI and OTLP HTTP collector
       - "4317:4317"  # Expose port 4317 for OTLP gRPC collector
+  
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
